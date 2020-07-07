@@ -12,11 +12,11 @@ beta <- 0.002
 gamma <- 0.5
 
 for (i in 1:(length(t)-1)) {
-  S[i+1] = S[i] - (beta * I[i] * S[i]) * delta_t
+  S[i+1] = S[i] - (beta*I[i]*S[i]) * delta_t
   
-  I[i+1] = I[i] + (beta * I[i] * S[i] - gamma * I[i]) * delta_t
+  I[i+1] = I[i] + (beta*I[i]*S[i] - gamma*I[i]) * delta_t
   
-  R[i+1] = R[i] + (gamma * I[i]) * delta_t
+  R[i+1] = R[i] + (gamma*I[i]) * delta_t
 }
 
 
