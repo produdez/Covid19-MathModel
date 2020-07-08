@@ -27,7 +27,7 @@ points(I~t, col="green")
 lines(R~t, col="blue")
 points(R~t, col="blue")
 
-text(7, 800, paste0("S(t) = ", round(S[length(t)], 4)), col = "red")
-text(7, 750, paste0("I(t) = ", round(I[length(t)], 4)), col = "green")
-text(7, 700, paste0("R(t) = ", round(R[length(t)], 4)), col = "blue")
+round(S[length(t)], 4))
+round(I[length(t)], 4))
+round(R[length(t)], 4))
 
