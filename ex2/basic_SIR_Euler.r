@@ -27,7 +27,6 @@ points(I~t, col="green")
 lines(R~t, col="blue")
 points(R~t, col="blue")
 
-round(S[length(t)], 4))
-round(I[length(t)], 4))
-round(R[length(t)], 4))
-
+round(S[length(t)], 4)
+round(I[length(t)], 4)
+round(R[length(t)], 4)
