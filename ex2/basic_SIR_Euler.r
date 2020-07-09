@@ -1,32 +1,31 @@
-S <- c()
-I <- c()
-R <- c()
+Euler_SIR <- function(S0, I0, R0, beta, gamma, t, delta_t) {
+  S <- c(); S[1] <- S0
+  I <- c(); I[1] <- I0
+  R <- c(); R[1] <- R0
 
-S[1] <- 800
-I[1] <- 7
-R[1] <- 0
-delta_t <- 1
-
-t <- seq(0, 8, by = delta_t)
-beta <- 0.002
-gamma <- 0.5
-
-for (i in 1:(length(t)-1)) {
-  S[i+1] = S[i] - (beta*I[i]*S[i]) * delta_t
+  times <- seq(0, t, by = delta_t)
   
-  I[i+1] = I[i] + (beta*I[i]*S[i] - gamma*I[i]) * delta_t
+  for (i in 1:(length(times)-1)) {
+    S[i+1] = S[i] - (beta * I[i] * S[i]) * delta_t
+    
+    I[i+1] = I[i] + (beta * I[i] * S[i] - gamma * I[i]) * delta_t
+    
+    R[i+1] = R[i] + (gamma * I[i]) * delta_t
+  }
   
-  R[i+1] = R[i] + (gamma*I[i]) * delta_t
+  result <- c(round(S[length(times)], 4),
+              round(I[length(times)], 4),
+              round(R[length(times)], 4))
+  
+  plot(S~times, col="red")
+  lines(S~times, col="red")
+  lines(I~times, col="green")
+  points(I~times, col="green")
+  lines(R~times, col="blue")
+  points(R~times, col="blue")
+  return(result)
 }
 
 
-plot(S~t, col="red")
-lines(S~t, col="red")
-lines(I~t, col="green")
-points(I~t, col="green")
-lines(R~t, col="blue")
-points(R~t, col="blue")
 
-round(S[length(t)], 4)
-round(I[length(t)], 4)
-round(R[length(t)], 4)
+Euler_SIR(800, 7, 0, 0.002, 0.5, 8, 1)
