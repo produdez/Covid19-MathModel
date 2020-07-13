@@ -53,6 +53,6 @@ with(as.list(data.frame(result)), {
 	plot(S ~ time, col="red", type="l", ylim=c(0, 100000), xlab="Day", ylab="People")
 	lines(I ~ time, col="green")
 	lines(R ~ time, col="blue")
-	legend(150, 100000, legend=c("Susceptible", "Infected", "Removed"),
+	legend("topright", inset=.05, legend=c("Susceptible", "Infected", "Removed"),
 	    col=c("red", "green", "blue"), lty=1)
 })
