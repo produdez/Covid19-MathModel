@@ -39,11 +39,25 @@ Date		AproxTime	Duration	Work			Description
 									Applied Euler's method to SIR for example
 									Testing Q4
 									
-12-7-2020	x		x		Current Process	Added explanations for SIERD Model
+12-7-2020	x		x		Current Process		Added explanations for SIERD Model
 									Added example for SIR and SIERD Model
 									Start cross-checking each other's current report's work.
 									Setup meeting time
 
-13-7-2020	3PM		2Hours		Offline Meeting
-18-7-2020	9PM		3Hours		Online Meeting
+13-7-2020	3PM		2Hours		Offline Meeting		Discuss the current report's status
+									Discuss the current approach to Q3 and Q4
+									Note some problems at hand (bad Q4 sample)
+									Discuss the report's outline for Q3 and Q4
+									
+14-7-2020	x		x		Current Process		Finished Q1, Q2
+									Got outline for Q3 and Q4
+									Work Assignment: L(Markov Chain and related theory), A(Metro-Polis Hasting), H(Random Walk MPH on SIR), D(Ro of SIR), T(Monte-Carlo Integration)
+
+16-7-2020	x		x		Current Process		Introduced Metro-Polis Hasting, history, general algorithm, steps
+									Explained Ro's meaning in SIR and it's formula
+									Explained probability space, stochastic process, Markov Chain
+									Introduced Monte-Carlo Integrationa and the naive method
+									Successfully sampled beta, gamma for SIR and calculated Ro (background progress)
+									Setup meeting time
+18-7-2020	9PM		3Hours		Online Meeting		
 19-7-2020	2PM		4Hours		Offline Meeting
