@@ -20,7 +20,6 @@ Date		AproxTime	Duration	Work			Description
 									Decided to skip Q5 due to difficulty and time constrain, will go back if have more time.
 									Set priority on focusing Q1, Q2 and Q3 for the next few days
 									Work Assignment:Q1 - (L,T) , (A,D) - Q2 ,Q3 - (H, everyone), Q4 - read_more, Q5 skip.
-									Current goal for the next few days: Finish Q1, Q2 and figure out questions,... for Q3,Q4 to ask for teacher's guidence.
 									Setup next meeting time.
 									
 6-7-2020	x		x		Current Process		Introduction to SIR, SIR extensions, Decide to choose model for Q1 and Q2 as SEIRD
@@ -32,7 +31,7 @@ Date		AproxTime	Duration	Work			Description
 									Had working code for running Metro-Polis Hasting (log-scaled)
 									Finished Euler's method, code and example for SIR model, researching on extensions
 									Researching on Q4
-									Gathering questions to maybe ask lecturer (all question gather was resolved later)
+									Gathering questions to maybe ask lecturer (all question gather was resolved later so none were sent to teacher)
 
 									
 10-7-2020	x		x		Current Process		Added introduction to Modified Euler and Runge-Kutta Method, code for both method
@@ -58,6 +57,22 @@ Date		AproxTime	Duration	Work			Description
 									Explained probability space, stochastic process, Markov Chain
 									Introduced Monte-Carlo Integrationa and the naive method
 									Successfully sampled beta, gamma for SIR and calculated Ro (background progress)
+									Added current refferences to the report
 									Setup meeting time
-18-7-2020	9PM		3Hours		Online Meeting		
-19-7-2020	2PM		4Hours		Offline Meeting
+									
+18-7-2020	9PM		3Hours		Online Meeting		Read through report together and try and explain the mentioned theories
+									Discuss about the Metro-Polis Hasting random walk algorithm for Multivariate variable.
+									Setup follow up meeting
+									
+19-7-2020	2PM		4Hours		Offline Meeting		Go through remaining theories on the report
+									Disscuss the report's status, what theory to keep and remove, structure comments, notation inconsitance, parts needed to be add and change,..
+									Disscuss the approach to Q4, using Monte-Carlo Intergration (important sampling) on Ro. Sample for beta and gamma is drawn from Metro-Polis Hasting, which follows a posterior distribution we not know but is proportional to a likelihood and a prior distribution.
+									Disscuss how to calculate the likelihood using assumptions and SIR model estimated by Runge-Kutta Method
+									Disscuss how to apply the method to a country's data, the method must yield a meaningful result reflecting the country's measurements against the pandemic
+									Aim: Calculate Ro for two time period: 1 week before and after a country's social distancing measure is enforced, to see how it affect the Ro.
+									Work assignment: Make changes to the current report (Q3 mostly) as disscused in meeting and move on to reading more about Q4 to start writing report.
+								
+20-7-2020	x		x		Current Progress	...Work Assignment:....
+									
+									
+									
