@@ -6,12 +6,15 @@
 */
 
 Date		AproxTime	Duration	Work			Description
-3-6-2020	7AM		1Day		Received Assignment	Got email for the assignment's PDF
+3-7-2020	7AM		1Day		Received Assignment	Got email for the assignment's PDF
 									Form and initiate group to start reading material
+									Created overleaf link for work.
 									Setup metting time
-4-6-2020	9PM		2Hours		Initial Meeting		Meeting through google-meet to form ideas and Q-A initial questions
+									
+4-7-2020	9PM		2Hours		Online Meeting		Meeting through google-meet to form ideas and Q-A initial questions
 									Setup face-to-face metting time
-5-6-2020	2PM		3Hours		IRL Meeting		Go through again the materials as a groups
+									
+5-7-2020	2PM		3Hours		Offline Meeting		Go through again the materials as a groups
 									Discuss and try to get everyone on the same page for the assignment's questions
 									Help all to understand the difficult excercises (Q3, Q4), still has to figure out Q4
 									Decided to skip Q5 due to difficulty and time constrain, will go back if have more time.
@@ -19,5 +22,28 @@ Date		AproxTime	Duration	Work			Description
 									Work Assignment:Q1 - (L,T) , (A,D) - Q2 ,Q3 - (H, everyone), Q4 - read_more, Q5 skip.
 									Current goal for the next few days: Finish Q1, Q2 and figure out questions,... for Q3,Q4 to ask for teacher's guidence.
 									Setup next meeting time.
-7-6-2020	?		2Hours		Meeting
+									
+6-7-2020	x		x		Current Process		Introduction to SIR, SIR extensions, Decide to choose model for Q1 and Q2 as SEIRD
+									Created github and drive folder for work
+									Introduction to euler's method
+									Research on Q3 and Q4
+									
+8-7-2020	x		x		Current Process		Constructed continous, discrete model for SEIRD Model
+									Had working code for running Metro-Polis Hasting (log-scaled)
+									Finished Euler's method, code and example for SIR model, researching on extensions
+									Researching on Q4
+									Gathering questions to maybe ask lecturer (all question gather was resolved later)
 
+									
+10-7-2020	x		x		Current Process		Added introduction to Modified Euler and Runge-Kutta Method, code for both method
+									Applied Euler's method to SIR for example
+									Testing Q4
+									
+12-7-2020	x		x		Current Process	Added explanations for SIERD Model
+									Added example for SIR and SIERD Model
+									Start cross-checking each other's current report's work.
+									Setup meeting time
+
+13-7-2020	3PM		2Hours		Offline Meeting
+18-7-2020	9PM		3Hours		Online Meeting
+19-7-2020	2PM		4Hours		Offline Meeting
