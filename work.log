@@ -28,7 +28,7 @@ Date		AproxTime	Duration	Work			Description
 									Research on Q3 and Q4
 									
 8-7-2020	x		x		Current Process		Constructed continous, discrete model for SEIRD Model
-									Had working code for running Metro-Polis Hasting (log-scaled)
+									Had working code for running Metropolis Hasting (log-scaled)
 									Finished Euler's method, code and example for SIR model, researching on extensions
 									Researching on Q4
 									Gathering questions to maybe ask lecturer (all question gather was resolved later so none were sent to teacher)
@@ -50,9 +50,9 @@ Date		AproxTime	Duration	Work			Description
 									
 14-7-2020	x		x		Current Process		Finished Q1, Q2
 									Got outline for Q3 and Q4
-									Work Assignment: L(Markov Chain and related theory), A(Metro-Polis Hasting), H(Random Walk MPH on SIR), D(Ro of SIR), T(Monte-Carlo Integration)
+									Work Assignment: L(Markov Chain and related theory), A(Metropolis Hasting), H(Random Walk MPH on SIR), D(Ro of SIR), T(Monte-Carlo Integration)
 
-16-7-2020	x		x		Current Process		Introduced Metro-Polis Hasting, history, general algorithm, steps
+16-7-2020	x		x		Current Process		Introduced Metropolis Hasting, history, general algorithm, steps
 									Explained Ro's meaning in SIR and it's formula
 									Explained probability space, stochastic process, Markov Chain
 									Introduced Monte-Carlo Integrationa and the naive method
@@ -61,7 +61,7 @@ Date		AproxTime	Duration	Work			Description
 									Setup meeting time
 									
 18-7-2020	9PM		3Hours		Online Meeting		Read through report together and try and explain the mentioned theories
-									Discuss about the Metro-Polis Hasting random walk algorithm for Multivariate variable.
+									Discuss about the Metropolis Hasting random walk algorithm for Multivariate variable.
 									Setup follow up meeting
 									
 19-7-2020	2PM		4Hours		Offline Meeting		Go through remaining theories on the report
@@ -72,7 +72,15 @@ Date		AproxTime	Duration	Work			Description
 									Aim: Calculate Ro for two time period: 1 week before and after a country's social distancing measure is enforced, to see how it affect the Ro.
 									Work assignment: Make changes to the current report (Q3 mostly) as disscused in meeting and move on to reading more about Q4 to start writing report.
 								
-20-7-2020	x		x		Current Progress	...Work Assignment:....
+20-7-2020	x		x		Current Progress	Removed unnecessary theories
+									Redo the Monte Carlo Integration 
+									Change the writing of Metropolis Hasting
+									Added example for Q3
+								
+22-7-2020	x		x		Current Progress	Added Bayes Inference for Ro
+									Added implementation details for calculating Ro (log-scale, transition kernel, likelihood calculation)
+									Added report's introduciton and motivation for Q4
+									Work Assignment: D and T (Monte-Carlo Integration, apply on Ro), H and L and A (Sampling and calculating Ro for given data, conclusion)
 									
 									
 									
