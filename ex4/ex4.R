@@ -18,32 +18,32 @@ rk4 <- function(y0, times, func, parms=NULL) {
 	return(tbl)
 }
 
-SIR.model <- function(t, y, parms) with(as.list(c(y, parms)), {
-	dS.dt <- -beta / N * S * I
-	dI.dt <- beta / N * I * S - gamma * I
-	dR.dt <- gamma * I
-	c(dS.dt, dI.dt, dR.dt)
+CR.model <- function(t, y, parms) with(as.list(c(y, parms)), {
+	dC.dt <- beta / N * (N - C) * (C - R)
+	dR.dt <- gamma * (C - R)
+	c(dC.dt, dR.dt)
 })
 
-rw.metro <- function(start, func, nsamples, pcov.scale=1, ...) {
-	opt <- optim(start, func, control=list(fnscale=-1), hessian=TRUE, ...)
-	if (opt$convergence != 0) stop(opt$message)
-	V <- -pcov.scale^2 * solve(opt$hessian)
-	print(opt)
+rw.metro <- function(start, func, sample.size, pcov.scale=1, ...) {
 	# Dimension of state space
 	dim <- length(start)
+
+	opt <- optim(start, func, control=list(fnscale=-1), hessian=TRUE, ...)
+	if (opt$convergence != 0) stop(opt$message)
+	prop.cov <- -2.4^2 / dim * solve(opt$hessian)
 	# Current state of the Markov chain
-	theta <- opt$par
+	theta <- mvrnorm(n=1, mu=opt$par, Sigma=prop.cov)
 	ptheta <- func(theta, ...)
-	# Generate matrix containing the samples. Initialize first sample with the starting value
-	samples <- matrix(nrow=nsamples, ncol=dim)
-	colnames(samples) <- names(start)
+	# Generate matrix containing the sample. Initialize first sample with the starting value
+	sample <- matrix(nrow=sample.size, ncol=dim)
+	colnames(sample) <- names(start)
+	sample[1, ] <- theta
 	# Generate uniform random numbers in advance, to save computation.
-	log.u <- log(runif(nsamples))
-	# Proposal is a multivariate standard normal distribution. Generate samples and
+	log.u <- log(runif(sample.size - 1))
+	# Proposal is a multivariate standard normal distribution. Generate sample and
 	# later on use linearity property of Gaussian distribution
-	normal.shift <- mvrnorm(n=nsamples, mu=rep(0, dim), Sigma=V)
-	for (i in seq_len(nsamples)) {
+	normal.shift <- mvrnorm(n=sample.size-1, mu=rep(0, dim), Sigma=prop.cov)
+	for (i in seq_len(sample.size - 1)) {
 		# Sample a candidate
 		candidate <- theta + normal.shift[i, ]
 		# Calculate func of candidate and store it in case it gets accepted
@@ -52,69 +52,112 @@ rw.metro <- function(start, func, nsamples, pcov.scale=1, ...) {
 			theta <- candidate
 			ptheta <- func(theta, ...)
 		}
-		samples[i, ] <- theta
+		sample[i+1, ] <- theta
 	}
-	return(samples)
+	return(sample)
 }
 
 # Prior distribution for our parameter
 log.prior <- function(theta) sum(dnorm(theta, sd=100, log=TRUE))
 
 log.likelihood <- function(theta, data, pop) {
-	n <- 10
+	n <- 20
 	ninterval <- nrow(data) - 1
 	change <- data[1:ninterval, c("S.I", "I.R")]
 	estimated <- t(apply(
-		data[1:ninterval, c("I", "R")],
+		data[1:ninterval, c("C", "R")],
 		MARGIN = 1,
 		FUN = function(x) {
 			sol <- rk4(
-				y = c(S = pop - sum(x), x),
+				y0 = x,
 				times = seq(0, 1, by=1/n),
-				func = SIR.model,
+				func = CR.model,
 				parms=c(exp(theta), N=pop)
 			)
-			flow <- sol[n+1, ] - sol[1, ]
-			c(S.I = -flow[["S"]], I.R = flow[["R"]])
+			sol[n+1, -1] - sol[1, -1]
 		}
 	))
 	sum(dpois(change, estimated, log=TRUE))
 }
 
-log.posterior <- function(theta, obs, population) {
-	log.prior(theta) + log.likelihood(theta, obs, population)
+log.posterior <- function(theta, data, pop) {
+	log.prior(theta) + log.likelihood(theta, data, pop)
 }
 
-dataset <- "https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_%s_global.csv"
+dataset <- paste(
+	"https://github.com/CSSEGISandData/COVID-19",
+	"raw/master/csse_covid_19_data/csse_covid_19_time_series",
+	"time_series_covid19_%s_global.csv",
+	sep = "/"
+)
 confirmed <- read.csv(sprintf(dataset, "confirmed"), check.names=FALSE)
 recovered <- read.csv(sprintf(dataset, "recovered"), check.names=FALSE)
-death <- read.csv(sprintf(dataset, "deaths"), check.names=FALSE)
-# We analyze data of Afghanistan
-removed <- unlist(recovered[1, -(1:4)] + death[1, -(1:4)])
-infected <- unlist(confirmed[1, -(1:4)]) - removed
+deaths <- read.csv(sprintf(dataset, "deaths"), check.names=FALSE)
+report.date <- as.Date(names(confirmed[, -(1:4)]), "%m/%d/%y")
+
+confirmed.VN <- unlist(subset(confirmed, `Country/Region` == "Vietnam", select=-(1:4)))
+recovered.VN <- unlist(subset(recovered, `Country/Region` == "Vietnam", select=-(1:4)))
+deaths.VN <- unlist(subset(deaths, `Country/Region` == "Vietnam", select=-(1:4)))
 observed <- data.frame(
-	date = as.Date(names(infected), "%m/%d/%y"),
-	I = infected,
-	R = removed,
+	date = report.date,
+	C = confirmed.VN,
+	R = recovered.VN + deaths.VN,
 	row.names = NULL
 )
 observed$I.R <- c(diff(observed$R), NA)
-observed$S.I <- c(diff(observed$I), NA) + observed$I.R
-interval1 <- seq(as.Date("2020-05-01"), by = "day", length.out = 7)
+observed$S.I <- c(diff(observed$C), NA)
+# Population of Vietnam
+pop <- 97338579
+
+interval1 <- seq(as.Date("2020-03-25"), by = "day", length.out = 7)
 obs1 <- subset(observed, date %in% interval1)
 
-pop <- 38928346
-nsamples <- 100
-samples <- rw.metro(
-	start = log(c(beta=.1, gamma=.01)),
+init.beta <- (obs1$C[2] - obs1$C[1]) * pop / (pop - obs1$C[1]) / (obs1$C[1] - obs1$R[1])
+init.gamma <- (obs1$R[2] - obs1$R[1]) / (obs1$C[1] - obs1$R[1])
+sample.size <- 50000
+sample1 <- rw.metro(
+	start = log(c(beta=init.beta, gamma=init.gamma)),
 	func = log.posterior,
-	nsamples,
-	pcov.scale = 2,
-	obs = data.matrix(obs1[, -1]),
-	population = pop
+	sample.size = sample.size,
+	data = data.matrix(obs1[, -1]),
+	pop = pop
 )
-plot(samples, type="l")
-R0 <- sum(exp(samples[, "beta"] - samples[, "gamma"])) / nrow(samples)
-cat("R0 is", R0, "\n")
-rej.rate <- sum(apply(diff(samples) == 0, 1, FUN=all)) / (nrow(samples) - 1)
-cat("Rejection rate is", rej.rate, "\n")
+
+sample1.R0 <- exp(sample1[, "beta"] - sample1[, "gamma"])
+R0 <- mean(sample1.R0)
+cat("Bayes estimate of R0 is", R0, "\n")
+
+blen <- floor(sqrt(sample.size))
+nbatch <- sample.size %/% blen
+batch.means <- sapply(
+    1:nbatch,
+    FUN = function(k) mean(sample1.R0[((k-1)*blen + 1):(k * blen)])
+)
+var.hat <- blen / nbatch * sum((batch.means - R0)^2)
+err1 <- sqrt(var.hat / sample.size)
+cat("Monte Carlo standard error of above approximation is", err1, "\n")
+
+interval2 <- seq(as.Date("2020-04-08"), by = "day", length.out = 7)
+obs2 <- subset(observed, date %in% interval2)
+
+init.beta <- (obs2$C[2] - obs2$C[1]) * pop / (pop - obs2$C[1]) / (obs2$C[1] - obs2$R[1])
+init.gamma <- (obs2$R[2] - obs2$R[1]) / (obs2$C[1] - obs2$R[1])
+sample2 <- rw.metro(
+	start = log(c(beta=init.beta, gamma=init.gamma)),
+	func = log.posterior,
+	sample.size = sample.size,
+	data = data.matrix(obs2[, -1]),
+	pop = pop
+)
+
+sample2.R0 <- exp(sample2[, "beta"] - sample2[, "gamma"])
+R0 <- mean(sample2.R0)
+cat("Bayes estimate of R0 is", R0, "\n")
+
+batch.means <- sapply(
+    1:nbatch,
+    FUN = function(k) mean(sample2.R0[((k-1)*blen + 1):(k * blen)])
+)
+var.hat <- blen / nbatch * sum((batch.means - R0)^2)
+err2 <- sqrt(var.hat / sample.size)
+cat("Monte Carlo standard error of above approximation is", err2, "\n")
